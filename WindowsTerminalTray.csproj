@@ -71,6 +71,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config\Config.cs" />
+    <Compile Include="Config\ConfigBuilder.cs" />
+    <Compile Include="Config\Provider\IProvider.cs" />
+    <Compile Include="Config\Provider\JsonProvider.cs" />
     <Compile Include="TrayApp.cs" />
     <Compile Include="Keys\KeyboardHook.cs" />
     <Compile Include="Program.cs" />
