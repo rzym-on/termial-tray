@@ -2,6 +2,6 @@
 {
     interface IProvider
     {
-        Config Deserialize(string source);
+        Config Deserialize();
     }
 }

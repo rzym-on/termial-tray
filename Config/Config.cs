@@ -8,6 +8,7 @@ namespace WindowsTermialTray.Config
         string ExeFilePath { get; set; }
         ModifierKeys ModifierKeys { get; set; }
     }
+
     public class Config
     {
         App[] Apps { get; set; }

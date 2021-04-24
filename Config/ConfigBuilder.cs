@@ -6,17 +6,11 @@ namespace WindowsTermialTray.Config
     // var config = new ConfigBuilder().AddJsonFile("./config.json").AddJsonFile(appPath).Build()
     public class ConfigBuilder
     {
-        private class ProviderList
-        {
-            public string filePath;
-            public IProvider provider;
-        }
+        private readonly List<IProvider> _providers;
 
-        private readonly List<ProviderList> _providers;
-
-        private ConfigBuilder(List<ProviderList> providers)
+        private ConfigBuilder(List<IProvider> providers)
         {
-            new ConfigBuilder(_providers = providers);
+            _providers = providers;
         }
 
         public static ConfigBuilder Create()
@@ -26,7 +20,7 @@ namespace WindowsTermialTray.Config
 
         public ConfigBuilder AddJsonFile(string jsonPath)
         {
-            _providers.Add(new ProviderList { filePath = jsonPath, provider = new JsonProvider() });
+            _providers.Add(new JsonProvider(jsonPath));
             return new ConfigBuilder(_providers);
         }
 

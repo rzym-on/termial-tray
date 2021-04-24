@@ -4,9 +4,16 @@ namespace WindowsTermialTray.Config.Provider
 {
     class JsonProvider : IProvider
     {
-        public Config Deserialize(string jsonString)
+        private readonly string _jsonString;
+
+        public JsonProvider(string jsonString)
         {
-            return JsonSerializer.Deserialize<Config>(jsonString);
+            _jsonString = jsonString;
+        }
+
+        public Config Deserialize()
+        {
+            return JsonSerializer.Deserialize<Config>(_jsonString);
         }
     }
 }
