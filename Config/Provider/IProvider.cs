@@ -2,6 +2,10 @@
 {
     interface IProvider
     {
-        Config Deserialize();
+        /// <summary>
+        /// Load configurations.
+        /// </summary>
+        /// <exception cref="System.FormatException">Thrown when invalid data provided.</exception>
+        Config Load();
     }
 }

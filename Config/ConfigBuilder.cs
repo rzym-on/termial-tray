@@ -3,7 +3,7 @@ using WindowsTermialTray.Config.Provider;
 
 namespace WindowsTermialTray.Config
 {
-    // var config = new ConfigBuilder().AddJsonFile("./config.json").AddJsonFile(appPath).Build()
+    // var config = ConfigBuilder.Create().AddJsonFile("./config.json").AddJsonFile(appPath).Build()
     public class ConfigBuilder
     {
         private readonly List<IProvider> _providers;
@@ -24,10 +24,21 @@ namespace WindowsTermialTray.Config
             return new ConfigBuilder(_providers);
         }
 
-        // TODO: call provider.Deserialize() in foreach
         public Config Build()
         {
-            return new Config();
+            foreach (var provider in _providers)
+            {
+                var config = provider.Load();
+                if (config != null)
+                {
+                    return config;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            return null;
         }
     }
 }
