@@ -104,6 +104,7 @@
   <ItemGroup>
     <Compile Include="Config\Config.cs" />
     <Compile Include="Config\ConfigBuilder.cs" />
+    <Compile Include="Config\Provider\DefaultProvider.cs" />
     <Compile Include="Config\Provider\IProvider.cs" />
     <Compile Include="Config\Provider\JsonProvider.cs" />
     <Compile Include="TrayApp.cs" />

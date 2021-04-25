@@ -15,7 +15,13 @@ namespace WindowsTermialTray.Config
 
         public static ConfigBuilder Create()
         {
-            return new ConfigBuilder(default);
+            return new ConfigBuilder(new List<IProvider> { });
+        }
+
+        public ConfigBuilder AddDefault()
+        {
+            _providers.Add(new DefaultProvider());
+            return new ConfigBuilder(_providers);
         }
 
         public ConfigBuilder AddJsonFile(string jsonPath)
