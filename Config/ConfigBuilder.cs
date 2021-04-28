@@ -3,7 +3,6 @@ using WindowsTermialTray.Config.Provider;
 
 namespace WindowsTermialTray.Config
 {
-    // var config = ConfigBuilder.Create().AddJsonFile("./config.json").AddJsonFile(appPath).Build()
     public class ConfigBuilder
     {
         private readonly List<IProvider> _providers;
