@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace WindowsTermialTray.Config.Provider
 {
-    class JsonProvider : IProvider
+    public class JsonProvider : IProvider
     {
         private readonly string _jsonPath;
 
