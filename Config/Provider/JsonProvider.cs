@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.Json;
 
 namespace WindowsTermialTray.Config.Provider
@@ -16,7 +17,14 @@ namespace WindowsTermialTray.Config.Provider
         {
             try
             {
-                return JsonSerializer.Deserialize<Config>(_jsonString);
+                var config = JsonSerializer.Deserialize<Config>(_jsonString);
+                var hasNull = config.GetType().GetProperties().All(p => p.GetValue(config) != null);
+                if (hasNull)
+                {
+                    throw new FormatException("json includes null value or some fields are missing");
+                }
+
+                return config;
             }
             catch (JsonException e)
             {
