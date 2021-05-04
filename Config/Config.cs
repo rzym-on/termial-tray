@@ -12,13 +12,13 @@ namespace WindowsTermialTray.Config
 
     public class Config
     {
-        public App[] Apps { get; set; }
+        public virtual App[] Apps { get; set; }
     }
 
     public class DefaultConfig : Config
     {
-        public new App[] Apps { get; } = new App[] {
-            new App { ProcessName = "WindowsTerminal", ExeFilePath = "wt.exe", ModifierKeys = ModifierKeys.Alt, Keys = System.Windows.Forms.Keys.Oemtilde}
+        public override App[] Apps { get; set; } = new App[] {
+            new App { ProcessName = "WindowsTerminal", ExeFilePath = "wt.exe", ModifierKeys = ModifierKeys.Alt, Keys = System.Windows.Forms.Keys.T}
         };
     }
 }

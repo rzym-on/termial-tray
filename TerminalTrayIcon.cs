@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using WindowsTermialTray;
-using WindowsTermialTray.Keys;
+using WindowsTermialTray.Config;
 using WindowsTermialTray.Properties;
 
 namespace WindowsTerminalTray
@@ -28,13 +27,16 @@ namespace WindowsTerminalTray
 
             contextMenu.MenuItems.Add(exitItem);
 
+            var configPath = Application.UserAppDataPath + "\\config.json";
+            var config = ConfigBuilder.Create().AddJsonFile(configPath).AddDefault().Build();
+
             _appTrayList = new List<TrayApp>();
-            _appTrayList.AddRange(new []
+            foreach (var app in config.Apps)
             {
-                new TrayApp("WindowsTerminal", "wt.exe", ModifierKeys.Alt, Keys.Oemtilde)
-                // Add your other tray apps here
-                // new TrayApp("ProcessName", "exec.exe", ModifierKeys.Ctrl, Keys.Oemtilde)
-            });
+                _appTrayList.AddRange(new[] {
+                    new TrayApp(app.ProcessName, app.ExeFilePath, app.ModifierKeys, app.Keys)
+                });
+            }
 
             Ni = new NotifyIcon
             {
