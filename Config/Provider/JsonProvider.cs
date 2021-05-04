@@ -1,34 +1,26 @@
 ﻿using System;
-using System.IO;
 using System.Text.Json;
 
 namespace WindowsTermialTray.Config.Provider
 {
     public class JsonProvider : IProvider
     {
-        private readonly string _jsonPath;
+        private readonly string _jsonString;
 
-        public JsonProvider(string jsonPath)
+        public JsonProvider(string jsonString)
         {
-            _jsonPath = jsonPath;
+            _jsonString = jsonString;
         }
 
         public Config Load()
         {
-            if (!File.Exists(_jsonPath))
-            {
-                return null;
-            }
-
-            var jsonString = File.ReadAllText(_jsonPath);
-
             try
             {
-                return JsonSerializer.Deserialize<Config>(jsonString);
+                return JsonSerializer.Deserialize<Config>(_jsonString);
             }
             catch (JsonException e)
             {
-                throw new FormatException($"invalid json: {_jsonPath}", e);
+                throw new FormatException($"invalid json", e);
             }
         }
     }

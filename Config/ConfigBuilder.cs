@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using WindowsTermialTray.Config.Provider;
 
 namespace WindowsTermialTray.Config
@@ -25,7 +26,12 @@ namespace WindowsTermialTray.Config
 
         public ConfigBuilder AddJsonFile(string jsonPath)
         {
-            _providers.Add(new JsonProvider(jsonPath));
+            if (File.Exists(jsonPath))
+            {
+                var jsonString = File.ReadAllText(jsonPath);
+                _providers.Add(new JsonProvider(jsonString));
+            }
+
             return new ConfigBuilder(_providers);
         }
 
