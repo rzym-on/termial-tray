@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using WindowsTermialTray;
 using WindowsTermialTray.Config;
@@ -27,8 +28,20 @@ namespace WindowsTerminalTray
 
             contextMenu.MenuItems.Add(exitItem);
 
-            var configPath = Application.UserAppDataPath + "\\config.json";
-            var config = ConfigBuilder.Create().AddJsonFile(configPath).AddDefault().Build();
+            var configFileName = "config.json";
+            Config config = null;
+            try
+            {
+                config = ConfigBuilder.Create()
+                    .AddJsonFile(Path.Combine(Environment.CurrentDirectory, configFileName))
+                    .AddJsonFile(Path.Combine(Directory.GetParent(Application.UserAppDataPath).FullName, configFileName))
+                    .AddDefault().Build();
+            }
+            catch (FormatException)
+            {
+                OpenMessageBox("Settings clouldn't be loaded from file.\nCheck for syntax error, including invalid value.");
+                Application.Exit();
+            }
 
             _appTrayList = new List<TrayApp>();
             foreach (var app in config.Apps)
@@ -56,5 +69,10 @@ namespace WindowsTerminalTray
         }
 
         public void Dispose() { }
+
+        private void OpenMessageBox(string message)
+        {
+            MessageBox.Show(message, Application.ProductName);
+        }
     }
 }

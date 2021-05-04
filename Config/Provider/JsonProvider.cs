@@ -18,7 +18,7 @@ namespace WindowsTermialTray.Config.Provider
             try
             {
                 var config = JsonSerializer.Deserialize<Config>(_jsonString);
-                var hasNull = config.GetType().GetProperties().All(p => p.GetValue(config) != null);
+                var hasNull = config.Apps.Any(a => a.GetType().GetProperties().Any(p => p.GetValue(a) == default));
                 if (hasNull)
                 {
                     throw new FormatException("json includes null value or some fields are missing");
