@@ -39,7 +39,7 @@ namespace WindowsTerminalTray
             }
             catch (FormatException)
             {
-                OpenMessageBox("Settings clouldn't be loaded from file.\nCheck for syntax error, including invalid value.");
+                OpenMessageBox("Settings couldn't be loaded from file.\nCheck for syntax error, including invalid value.");
                 Application.Exit();
             }
 
