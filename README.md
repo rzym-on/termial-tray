@@ -73,25 +73,41 @@ If you had multiple instances of an app, Termial Tray will store only one, so fe
 ## FAQ
 
 ### **Can I manage other apps like Windows Terminal with Quake Style?**
-Yes of course! But you need to dig into code. Just download this repo, go to `TerminalTracyIcon.cs` file and find this section:
-```C#
-_appTrayList.AddRange(new []
-            {
-                new TrayApp("WindowsTerminal", "wt.exe", ModifierKeys.Alt, Keys.Oemtilde)
-                // Add your other tray apps here
-                // new TrayApp("ProcessName", "exec.exe", ModifierKeys.Ctrl, Keys.Oemtilde)
-            });
+You can configure settings by `config.json` like below.
+
+#### config.json
+```json
+{
+    "Apps": [
+        {
+            "ProcessName": "WindowsTerminal",
+            "ExeFilePath": "wt.exe",
+            "ModifierKeys": 1,
+            "Keys": 84
+        },
+        {
+            "ProcessName": "Spotify",
+            "ExeFilePath": "Spotify.exe",
+            "ModifierKeys": 1,
+            "Keys": 83
+        }
+    ]
+}
 ```
+The json should be located at:
+1. same directory as `WindowsTermialTray.exe`
+1. `$env:LOCALAPPDATA\WindowsTermialTray\config.json`
+
 From here you can add other apps, but you need to specify and know:
 
 * Your app [ProcessName](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.management/get-process?view=powershell-7).
 * Your app executable.
-* Unique pair of `ModifierKey` and `Key`.
-
-When you find out everything - add your app in code with parameters (and comment Windows Terminal if don't want it), and follow steps in [installation section](#installation), to build `.exe` file.
-
-### **Why building and adding other apps is so difficult?**
-Because I didn't prepared this. For now this little app is for me, but if you like it too - tell me, and I'll continue to contribuiting it!
+* Unique pair of `ModifierKey` and [Key](https://docs.microsoft.com/ja-jp/dotnet/api/system.windows.forms.keys).
+#### ModifierKey
+- Alt: 1
+- Control: 2
+- Shift: 4
+- Win: 8
 
 ### **Will you be contributing this Termial Tray?**
 Nah. I hope that MS add *Quake Style* behaviour for Windows Terminal, but if not, or some people find Termial Tray useful for other Jobs - I'll start to work on this app, to make it more powerfull and usefull.

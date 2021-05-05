@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Windows.Forms;
 using WindowsTermialTray;
-using WindowsTermialTray.Keys;
+using WindowsTermialTray.Config;
 using WindowsTermialTray.Properties;
 
 namespace WindowsTerminalTray
@@ -28,13 +28,28 @@ namespace WindowsTerminalTray
 
             contextMenu.MenuItems.Add(exitItem);
 
-            _appTrayList = new List<TrayApp>();
-            _appTrayList.AddRange(new []
+            var configFileName = "config.json";
+            Config config = null;
+            try
             {
-                new TrayApp("WindowsTerminal", "wt.exe", ModifierKeys.Alt, Keys.Oemtilde)
-                // Add your other tray apps here
-                // new TrayApp("ProcessName", "exec.exe", ModifierKeys.Ctrl, Keys.Oemtilde)
-            });
+                config = ConfigBuilder.Create()
+                    .AddJsonFile(Path.Combine(Environment.CurrentDirectory, configFileName))
+                    .AddJsonFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Application.ProductName, configFileName))
+                    .AddDefault().Build();
+            }
+            catch (FormatException)
+            {
+                OpenMessageBox("Settings couldn't be loaded from file.\nCheck for syntax error, including invalid value.");
+                Application.Exit();
+            }
+
+            _appTrayList = new List<TrayApp>();
+            foreach (var app in config.Apps)
+            {
+                _appTrayList.AddRange(new[] {
+                    new TrayApp(app.ProcessName, app.ExeFilePath, app.ModifierKeys, app.Keys)
+                });
+            }
 
             Ni = new NotifyIcon
             {
@@ -54,5 +69,10 @@ namespace WindowsTerminalTray
         }
 
         public void Dispose() { }
+
+        private void OpenMessageBox(string message)
+        {
+            MessageBox.Show(message, Application.ProductName);
+        }
     }
 }
