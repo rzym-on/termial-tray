@@ -86,7 +86,9 @@ namespace WindowsTermialTray
                 process.StartInfo.FileName = _exec;
                 process.StartInfo.WindowStyle = ProcessWindowStyle.Maximized;
                 process.Start();
-                while (_appProcess == null)
+
+                var start = DateTime.Now;
+                while (_appProcess == null && DateTime.Now - start < TimeSpan.FromMilliseconds(1000))
                 {
                     _appProcess = Process.GetProcesses().FirstOrDefault(x => x.ProcessName.Equals(_processName) && !x.HasExited);
                     Thread.Sleep(100);
