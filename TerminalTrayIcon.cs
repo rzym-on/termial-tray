@@ -34,7 +34,7 @@ namespace WindowsTerminalTray
             {
                 config = ConfigBuilder.Create()
                     .AddJsonFile(Path.Combine(Environment.CurrentDirectory, configFileName))
-                    .AddJsonFile(Path.Combine(Directory.GetParent(Application.UserAppDataPath).FullName, configFileName))
+                    .AddJsonFile(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), Application.ProductName, configFileName))
                     .AddDefault().Build();
             }
             catch (FormatException)
